@@ -33,16 +33,26 @@ class Employee {
         }
         return 0;
     }
+
+    public void salaryBreakdown(){
+        double extra = calculateSalary();
+        double total = this.baseSalary + extra;
+        double bonus = applyBonus(total);
+
+        System.out.println("Base salary: " + getBaseSalary());
+        System.out.println("Extra: " + extra);
+        System.out.println("Salary Before Bonus: " + total);
+        System.out.println("Bonus: " + bonus);
+        System.out.println("Final Salary: " + (total + bonus));
+
+    }
     
 
     public double finalSalary() {
         double salary = this.baseSalary + calculateSalary();
         return salary + applyBonus(salary);
     }
-    public void salaryBreakdown(){
 
-
-    }
 }
 class Developer extends Employee {
 
@@ -93,11 +103,36 @@ class Manager extends Employee {
 public class Main {
     public static void main(String[] args) {
 
-        Developer dev = new Developer(1, "Sude", 3000, 1, "Software");
-        Manager mgr = new Manager(2, "Ali", 4000, 2, "IT");
+    Employee[] employees = new Employee[3];
 
-        System.out.println("Developer Final Salary: " + dev.finalSalary());
-        dev.salaryBreakdown();
-        System.out.println("Manager Final Salary: " + mgr.finalSalary());
+    employees[0] = new Developer(1, "Sude", 3000, 1, "Software");
+    employees[1] = new Manager(2, "Ali", 4000, 2, "IT");
+    employees[2] = new Developer(3, "Mehmet", 3500, 2, "Software");
+
+    double maxSalary = employees[0].finalSalary();
+    double minSalary = employees[0].finalSalary();
+    int count = 0;
+    int maxCount = 0;
+    int minCount = 0;
+
+    for(Employee employee : employees){
+        if(employee.finalSalary() > maxSalary){
+            maxSalary = employee.finalSalary();
+            maxCount = count;
+        }
+        if(employee.finalSalary() < minSalary){
+            minSalary = employee.finalSalary();
+            minCount = count;
+        }
+        count++;
+    }
+
+    System.out.println("Hight salary: " + employees[maxCount].finalSalary());
+    employees[maxCount].showInfo();
+
+    System.out.println("Less salary: " + employees[minCount].finalSalary());
+    employees[minCount].showInfo();
+
+
     }
 }
